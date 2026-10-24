@@ -1,78 +1,280 @@
+
 <section class="formatter">
-    <header class="page-header">
-        <div>
-            <p class="eyebrow">FREE DEVELOPER TOOL</p>
-            <h1>JSON Formatter &amp; Validator</h1>
-            <p class="subtitle">
-                Format, minify and validate JSON directly in your browser.
-                Your data stays on your device.
-            </p>
-        </div>
+  <header class="page-header">
+    <div class="hero-copy">
+      <p class="eyebrow">CODEXAKIT DEVELOPER TOOLS</p>
+      <h1>JSON Formatter <span>&amp;</span> Validator</h1>
+      <p class="subtitle">
+        Format, validate, explore, compare and transform JSON directly in your browser.
+        Your data stays on your device.
+      </p>
+    </div>
 
-        <button class="button secondary" (click)="loadSample()">
-            Load sample
-        </button>
-    </header>
+    <button type="button" class="button sample-button" (click)="loadSample()">
+      <lucide-icon name="file-text" [size]="17"></lucide-icon>
+      <span>Load sample</span>
+    </button>
+  </header>
 
-    <div class="toolbar">
-        <div class="actions">
-            <button class="button primary" (click)="format()">Format JSON</button>
-            <button class="button secondary" (click)="minify()">Minify</button>
-            <button class="button secondary" (click)="validate()">Validate</button>
+  <nav class="mode-tabs" aria-label="JSON tools">
+    <button type="button" [class.active]="mode === 'format'"
+      [attr.aria-pressed]="mode === 'format'" (click)="selectMode('format')">
+      Format
+    </button>
+    <button type="button" [class.active]="mode === 'explore'"
+      [attr.aria-pressed]="mode === 'explore'" (click)="selectMode('explore')">
+      Explore
+    </button>
+    <button type="button" [class.active]="mode === 'compare'"
+      [attr.aria-pressed]="mode === 'compare'" (click)="selectMode('compare')">
+      Compare
+    </button>
+    <button type="button" [class.active]="mode === 'convert'"
+      [attr.aria-pressed]="mode === 'convert'" (click)="selectMode('convert')">
+      Convert
+    </button>
+  </nav>
 
-            <button class="button secondary" (click)="fileInput.click()">
-                Upload JSON
+  <div class="toolbar">
+    <div class="actions">
+      <button type="button" class="button primary" (click)="format()">
+        <lucide-icon name="sparkles" [size]="17"></lucide-icon>
+        <span>Format</span>
+      </button>
+
+      <button type="button" class="button secondary" (click)="minify()">
+        <lucide-icon name="download" [size]="17"></lucide-icon>
+        <span>Minify</span>
+      </button>
+
+      <button type="button" class="button secondary" (click)="validate()">
+        <lucide-icon name="check" [size]="17"></lucide-icon>
+        <span>Validate</span>
+      </button>
+
+      <button type="button" class="button secondary" (click)="sortJsonKeys()">
+        <lucide-icon name="check" [size]="17"></lucide-icon>
+        <span>Sort keys</span>
+      </button>
+
+      <button type="button" class="button secondary" (click)="fileInput.click()">
+        <lucide-icon name="upload" [size]="17"></lucide-icon>
+        <span>Upload</span>
+      </button>
+
+      <input #fileInput type="file" accept=".json,application/json"
+        hidden (change)="uploadJson($event)" />
+    </div>
+
+    <label class="indent-control">
+      <span>Indent</span>
+      <select [(ngModel)]="indent" aria-label="JSON indentation">
+        <option [ngValue]="2">2 spaces</option>
+        <option [ngValue]="4">4 spaces</option>
+        <option [ngValue]="8">8 spaces</option>
+      </select>
+    </label>
+
+    <label class="sort-toggle">
+      <input type="checkbox" [(ngModel)]="sortKeys" />
+      <span>Sort on format</span>
+    </label>
+
+    <button type="button" class="button clear-button" (click)="clear()">
+      <lucide-icon name="trash-2" [size]="17"></lucide-icon>
+      <span>Clear</span>
+    </button>
+  </div>
+
+  <div class="editor-grid" [class.comparing]="mode === 'compare'">
+    <!-- LEFT PANEL -->
+    <section class="editor-panel">
+      <div class="panel-heading">
+        <h2>
+          <lucide-icon name="code-2" [size]="19"></lucide-icon>
+          <span>
+            {{ mode === 'compare' ? 'Original JSON' : 'Input JSON' }}
+          </span>
+        </h2>
+        <span class="character-count">{{ input.length }} characters</span>
+      </div>
+
+      @if (mode === 'compare' && comparisonReady) {
+        <pre class="diff-view" aria-label="Original JSON differences"><code>@for (line of compareLeftLines; track $index) {<span class="diff-line" [class.diff-removed]="line.type === 'removed'" [class.diff-empty]="line.type === 'empty'">{{ line.text || ' ' }}</span>
+}</code></pre>
+      } @else {
+        <textarea
+          aria-label="Input JSON"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          placeholder='Paste JSON here, e.g. {"name":"Alex"}'
+          [(ngModel)]="input"
+          (ngModelChange)="onJsonChanged()"
+        ></textarea>
+      }
+    </section>
+
+    <!-- MIDDLE SWAP BUTTON -->
+    <div class="swap-between">
+      <button
+        type="button"
+        class="swap-button"
+        (click)="swapInputOutput()"
+        [disabled]="mode === 'compare' ? !compareInput.trim() : !output"
+        aria-label="Swap JSON documents"
+        title="Swap JSON documents"
+      >
+        <lucide-icon name="arrow-left-right" [size]="18"></lucide-icon>
+      </button>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <section class="editor-panel">
+      <div class="panel-heading">
+        <h2>
+          <lucide-icon name="file-text" [size]="19"></lucide-icon>
+          <span>
+            {{ mode === 'compare' ? 'Compared JSON' : 'Output' }}
+          </span>
+        </h2>
+
+        @if (mode === 'compare' && comparisonReady) {
+          <button type="button" class="text-button" (click)="editComparison()">
+            Edit JSON
+          </button>
+        } @else if (mode !== 'compare') {
+          <div class="output-actions">
+            <button type="button" class="text-button"
+              (click)="copyOutput()" [disabled]="!output">
+              <lucide-icon name="copy" [size]="17"></lucide-icon>
+              <span>Copy</span>
             </button>
 
-            <input #fileInput type="file" accept=".json,application/json" hidden (change)="uploadJson($event)" />
+            <button type="button" class="text-button"
+              (click)="downloadOutput()" [disabled]="!output">
+              <lucide-icon name="download" [size]="17"></lucide-icon>
+              <span>Download</span>
+            </button>
+          </div>
+        }
+      </div>
 
-        </div>
+      @if (mode === 'compare' && comparisonReady) {
+        <pre class="diff-view" aria-label="Compared JSON differences"><code>@for (line of compareRightLines; track $index) {<span class="diff-line" [class.diff-added]="line.type === 'added'" [class.diff-empty]="line.type === 'empty'">{{ line.text || ' ' }}</span>
+}</code></pre>
+        <p class="diff-legend">
+          <span class="legend-removed">Removed</span>
+          <span class="legend-added">Added</span>
+        </p>
+      } @else if (mode === 'compare') {
+        <textarea
+          aria-label="Second JSON document"
+          spellcheck="false"
+          autocapitalize="off"
+          autocomplete="off"
+          autocorrect="off"
+          placeholder="Paste the second JSON document here..."
+          [(ngModel)]="compareInput"
+          (ngModelChange)="onJsonChanged()"
+        ></textarea>
 
+        <button type="button" class="button primary compare-action"
+          (click)="compareJson()">
+          <lucide-icon name="check" [size]="17"></lucide-icon>
+          <span>Compare JSON</span>
+        </button>
+      } @else {
+        <textarea
+          aria-label="JSON output"
+          spellcheck="false"
+          readonly
+          [value]="output"
+          placeholder="Your result will appear here..."
+        ></textarea>
+      }
+    </section>
+  </div>
+
+  <!-- EXPLORE TOOLS -->
+  @if (mode === 'explore') {
+    <section class="feature-panel">
+      <h2>JSON Explorer</h2>
+      <label class="search-control">
+        <span>Search keys and values</span>
+        <input type="search" [(ngModel)]="searchTerm"
+          placeholder="Search JSON..." />
+      </label>
+
+      @if (treeLines.length) {
+        <pre class="tree-view"><code>{{ treeLines.join('\n') }}</code></pre>
+      } @else {
+        <p class="helper-text">
+          Enter valid JSON or change your search to explore its structure.
+        </p>
+      }
+    </section>
+  }
+
+  <!-- CONVERT TOOLS -->
+  @if (mode === 'convert') {
+    <section class="feature-panel">
+      <h2>Transform JSON</h2>
+      <p class="helper-text">
+        Convert an array of JSON objects to CSV or flatten nested objects.
+      </p>
+
+      <div class="convert-actions">
         <label class="indent-control">
-            Indent
-            <select [(ngModel)]="indent">
-                <option [ngValue]="2">2 spaces</option>
-                <option [ngValue]="4">4 spaces</option>
-            </select>
+          <span>CSV delimiter</span>
+          <select [(ngModel)]="csvDelimiter">
+            <option value=",">Comma (,)</option>
+            <option value=";">Semicolon (;)</option>
+            <option value="&#9;">Tab</option>
+          </select>
         </label>
 
-        <button class="button secondary" (click)="clear()">Clear</button>
-    </div>
+        <button type="button" class="button secondary" (click)="convertToCsv()">
+          <lucide-icon name="file-text" [size]="17"></lucide-icon>
+          <span>Convert to CSV</span>
+        </button>
 
-    <div class="editor-grid">
-        <section class="editor-panel">
-            <div class="panel-heading">
-                <h2>Input JSON</h2>
-                <span>{{ input.length }} characters</span>
-            </div>
+        <button type="button" class="button secondary" (click)="flattenJson()">
+          <lucide-icon name="code-2" [size]="17"></lucide-icon>
+          <span>Flatten JSON</span>
+        </button>
+      </div>
+    </section>
+  }
 
-            <textarea aria-label="Input JSON" spellcheck="false" autocapitalize="off" autocomplete="off"
-                autocorrect="off" placeholder='Paste JSON here, e.g. {"name":"Alex"}' [(ngModel)]="input"></textarea>
-        </section>
+  <!-- STATUS AND ERRORS -->
+  @if (error) {
+    <p class="message error" role="alert">
+      <lucide-icon name="alert-circle" [size]="18"></lucide-icon>
+      <span>{{ error }}</span>
+    </p>
+  }
 
-        <section class="editor-panel">
-            <div class="panel-heading">
-                <h2>Output</h2>
-                <div class="output-actions">
-                    <button class="text-button" (click)="copyOutput()" [disabled]="!output">
-                        Copy
-                    </button>
-                    <button class="text-button" (click)="downloadOutput()" [disabled]="!output">
-                        Download
-                    </button>
-                </div>
-            </div>
+  @if (status) {
+    <p class="message success" role="status">
+      <lucide-icon name="check-circle" [size]="18"></lucide-icon>
+      <span>{{ status }}</span>
+    </p>
+  }
 
-            <textarea aria-label="Formatted JSON output" spellcheck="false" readonly [value]="output"
-                placeholder="Your result will appear here..."></textarea>
-        </section>
-    </div>
-
-    @if (error) {
-    <p class="message error" role="alert">{{ error }}</p>
-    }
-
-    @if (status) {
-    <p class="message success" role="status">{{ status }}</p>
-    }
+  <!-- JSON STATISTICS -->
+  @if (statistics; as stats) {
+    <section class="feature-panel">
+      <h2>JSON statistics</h2>
+      <div class="stats-grid">
+        <div><strong>{{ stats.characters }}</strong><span>Characters</span></div>
+        <div><strong>{{ stats.bytes }}</strong><span>Bytes</span></div>
+        <div><strong>{{ stats.keys }}</strong><span>Keys</span></div>
+        <div><strong>{{ stats.objects }}</strong><span>Objects</span></div>
+        <div><strong>{{ stats.arrays }}</strong><span>Arrays</span></div>
+        <div><strong>{{ stats.maxDepth }}</strong><span>Maximum depth</span></div>
+      </div>
+    </section>
+  }
 </section>

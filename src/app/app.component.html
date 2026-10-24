@@ -1,9 +1,12 @@
 
 <div class="site-shell">
   <header class="site-header">
-    <a class="brand" routerLink="/" aria-label="DevToolBox home">
+    <a class="brand" routerLink="/" aria-label="CodexaKit home">
       <span class="brand-mark">{{ '{ }' }}</span>
-      <span>DevToolBox</span>
+      <span class="brand-copy">
+        <span class="brand-name">Codexa<span>Kit</span></span>
+        <span class="brand-tagline">Free Developer Tools</span>
+      </span>
     </a>
 
     <nav class="main-nav" aria-label="Main navigation">
@@ -24,27 +27,48 @@
   </main>
 
   <footer class="site-footer">
-    <div class="footer-intro">
-      <a class="footer-brand" routerLink="/">DevToolBox</a>
-      <p>Simple, practical tools for developers.</p>
-    </div>
+    <div class="footer-main">
+      <div class="footer-intro">
+        <a class="footer-brand" routerLink="/">
+          <span class="brand-mark">{{ '{ }' }}</span>
+          <span class="brand-copy">
+            <span class="brand-name">Codexa<span>Kit</span></span>
+            <span class="brand-tagline">Simple, practical tools for developers.</span>
+          </span>
+        </a>
+        <p class="footer-description">
+          Useful developer tools designed to make everyday work simpler.
+        </p>
+      </div>
 
-    <div class="footer-group">
-      <h2>JSON Tools</h2>
-      <a routerLink="/">JSON Formatter &amp; Validator</a>
-      <span class="coming-soon">More tools coming soon</span>
-    </div>
+      <div class="footer-group">
+        <h2>JSON Tools</h2>
+        <a routerLink="/">JSON Formatter &amp; Validator</a>
+        <span class="coming-soon">More tools coming soon</span>
+      </div>
 
-    <div class="footer-group">
-      <h2>Information</h2>
-      <a routerLink="/about">About</a>
-      <a routerLink="/privacy">Privacy Policy</a>
-      <a routerLink="/contact">Contact</a>
+      <div class="footer-group">
+        <h2>Information</h2>
+        <a routerLink="/about">About</a>
+        <a routerLink="/privacy">Privacy Policy</a>
+        <a routerLink="/contact">Contact</a>
+      </div>
+
+      <div class="privacy-card">
+        <span class="privacy-icon" aria-hidden="true">✓</span>
+        <div>
+          <h2>Your Data Stays Private</h2>
+          <p>
+            JSON processing happens in your browser.
+            Your data is not sent to our servers by the formatter.
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="footer-bottom">
-      <span>© {{ currentYear }} DevToolBox</span>
-      <span>JSON processing happens in your browser.</span>
+      <span>© {{ currentYear }} CodexaKit. All rights reserved.</span>
+      <span>Free Developer Tools <span class="footer-divider">|</span> Built for Developers</span>
     </div>
   </footer>
 </div>
