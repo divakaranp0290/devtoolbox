@@ -1,15 +1,16 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://YOUR-DOMAIN/</loc>
+    <loc>https://devtoolbox-5g6.pages.dev/</loc>
   </url>
   <url>
-    <loc>https://YOUR-DOMAIN/about</loc>
+    <loc>https://devtoolbox-5g6.pages.dev/about</loc>
   </url>
   <url>
-    <loc>https://YOUR-DOMAIN/privacy</loc>
+    <loc>https://devtoolbox-5g6.pages.dev/privacy</loc>
   </url>
   <url>
-    <loc>https://YOUR-DOMAIN/contact</loc>
+    <loc>https://devtoolbox-5g6.pages.dev/contact</loc>
   </url>
 </urlset>
