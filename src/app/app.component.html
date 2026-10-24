@@ -1,0 +1,50 @@
+
+<div class="site-shell">
+  <header class="site-header">
+    <a class="brand" routerLink="/" aria-label="DevToolBox home">
+      <span class="brand-mark">{{ '{ }' }}</span>
+      <span>DevToolBox</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        JSON Formatter
+      </a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
+    </nav>
+  </header>
+
+  <main class="site-main">
+    <router-outlet />
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-intro">
+      <a class="footer-brand" routerLink="/">DevToolBox</a>
+      <p>Simple, practical tools for developers.</p>
+    </div>
+
+    <div class="footer-group">
+      <h2>JSON Tools</h2>
+      <a routerLink="/">JSON Formatter &amp; Validator</a>
+      <span class="coming-soon">More tools coming soon</span>
+    </div>
+
+    <div class="footer-group">
+      <h2>Information</h2>
+      <a routerLink="/about">About</a>
+      <a routerLink="/privacy">Privacy Policy</a>
+      <a routerLink="/contact">Contact</a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {{ currentYear }} DevToolBox</span>
+      <span>JSON processing happens in your browser.</span>
+    </div>
+  </footer>
+</div>

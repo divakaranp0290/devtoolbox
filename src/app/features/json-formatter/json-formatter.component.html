@@ -1,0 +1,78 @@
+<section class="formatter">
+    <header class="page-header">
+        <div>
+            <p class="eyebrow">FREE DEVELOPER TOOL</p>
+            <h1>JSON Formatter &amp; Validator</h1>
+            <p class="subtitle">
+                Format, minify and validate JSON directly in your browser.
+                Your data stays on your device.
+            </p>
+        </div>
+
+        <button class="button secondary" (click)="loadSample()">
+            Load sample
+        </button>
+    </header>
+
+    <div class="toolbar">
+        <div class="actions">
+            <button class="button primary" (click)="format()">Format JSON</button>
+            <button class="button secondary" (click)="minify()">Minify</button>
+            <button class="button secondary" (click)="validate()">Validate</button>
+
+            <button class="button secondary" (click)="fileInput.click()">
+                Upload JSON
+            </button>
+
+            <input #fileInput type="file" accept=".json,application/json" hidden (change)="uploadJson($event)" />
+
+        </div>
+
+        <label class="indent-control">
+            Indent
+            <select [(ngModel)]="indent">
+                <option [ngValue]="2">2 spaces</option>
+                <option [ngValue]="4">4 spaces</option>
+            </select>
+        </label>
+
+        <button class="button secondary" (click)="clear()">Clear</button>
+    </div>
+
+    <div class="editor-grid">
+        <section class="editor-panel">
+            <div class="panel-heading">
+                <h2>Input JSON</h2>
+                <span>{{ input.length }} characters</span>
+            </div>
+
+            <textarea aria-label="Input JSON" spellcheck="false" autocapitalize="off" autocomplete="off"
+                autocorrect="off" placeholder='Paste JSON here, e.g. {"name":"Alex"}' [(ngModel)]="input"></textarea>
+        </section>
+
+        <section class="editor-panel">
+            <div class="panel-heading">
+                <h2>Output</h2>
+                <div class="output-actions">
+                    <button class="text-button" (click)="copyOutput()" [disabled]="!output">
+                        Copy
+                    </button>
+                    <button class="text-button" (click)="downloadOutput()" [disabled]="!output">
+                        Download
+                    </button>
+                </div>
+            </div>
+
+            <textarea aria-label="Formatted JSON output" spellcheck="false" readonly [value]="output"
+                placeholder="Your result will appear here..."></textarea>
+        </section>
+    </div>
+
+    @if (error) {
+    <p class="message error" role="alert">{{ error }}</p>
+    }
+
+    @if (status) {
+    <p class="message success" role="status">{{ status }}</p>
+    }
+</section>
