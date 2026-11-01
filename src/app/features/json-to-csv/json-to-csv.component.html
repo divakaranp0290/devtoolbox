@@ -1,0 +1,86 @@
+<main class="converter-page">
+    <section class="page-heading">
+        <span class="eyebrow">Developer Tool</span>
+        <h1>JSON to CSV Converter</h1>
+        <p>
+            Convert JSON arrays into CSV format. Paste your JSON, convert it,
+            and copy or download the result.
+        </p>
+    </section>
+
+    <section class="converter-card">
+        <div class="editor-heading">
+            <div>
+                <h2>JSON Input</h2>
+                <p>Paste an array of JSON objects</p>
+            </div>
+
+            <div class="actions">
+                <button class="secondary-button" type="button" (click)="loadSample()">
+                    Load Sample
+                </button>
+
+                <button type="button" class="secondary-button" (click)="jsonFileInput.click()">
+                    Upload JSON
+                </button>
+
+                <input #jsonFileInput type="file" accept=".json,application/json" (change)="onFileSelected($event)"
+                    hidden />
+
+                <button class="secondary-button" type="button" (click)="clearAll()">
+                    Clear
+                </button>
+            </div>
+        </div>
+
+        <textarea [(ngModel)]="jsonInput" class="code-editor"
+            placeholder='Paste JSON here, e.g. [{"name":"John","age":30}]' spellcheck="false"
+            aria-label="JSON input"></textarea>
+
+        <div class="convert-row">
+            <button class="primary-button" type="button" (click)="convertToCsv()">
+                Convert to CSV
+            </button>
+        </div>
+
+        <p class="error-message" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </p>
+    </section>
+
+    <section class="converter-card output-card">
+        <div class="editor-heading">
+            <div>
+                <h2>CSV Output</h2>
+                <p>Your converted CSV data</p>
+            </div>
+
+            <div class="actions">
+                <button class="secondary-button" type="button" (click)="copyCsv()" [disabled]="!csvOutput">
+                    {{ copied ? 'Copied!' : 'Copy CSV' }}
+                </button>
+
+                <button class="secondary-button" type="button" (click)="downloadCsv()" [disabled]="!csvOutput">
+                    Download CSV
+                </button>
+            </div>
+        </div>
+
+        <textarea class="code-editor output-editor" [value]="csvOutput"
+            placeholder="Your CSV output will appear here..." readonly spellcheck="false"
+            aria-label="CSV output"></textarea>
+    </section>
+
+    <section class="info-section">
+        <h2>How to convert JSON to CSV</h2>
+        <ol>
+            <li>Paste a JSON array containing objects into the input editor.</li>
+            <li>Click <strong>Convert to CSV</strong>.</li>
+            <li>Copy the CSV output or download it as a CSV file.</li>
+        </ol>
+        <p>
+            The converter combines object keys into CSV headers. Missing fields
+            become empty cells, and nested values are represented as JSON text.
+        </p>
+    </section>
+</main>

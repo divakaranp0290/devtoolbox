@@ -4,6 +4,7 @@ import { JsonFormatterComponent } from './features/json-formatter/json-formatter
 import { About } from './pages/about/about.component';
 import { Privacy } from './pages/privacy/privacy.component';
 import { Contact } from './pages/contact/contact.component';
+import { JsonToCsvComponent } from './features/json-to-csv/json-to-csv.component';
 
 
 
@@ -42,6 +43,15 @@ export const routes: Routes = [
         data: {
             description:
                 'Contact DevToolBox with questions, bug reports and suggestions for improving our developer tools.',
+        },
+    },
+    {
+        path: 'json-to-csv',
+        component: JsonToCsvComponent,
+        title: 'JSON to CSV Converter | CodexaKit',
+        data: {
+            description:
+                'Convert JSON arrays to CSV online. Copy or download CSV output with this free developer tool.',
         },
     },
     {

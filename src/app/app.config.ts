@@ -14,7 +14,8 @@ import {
   CheckCircle,
   Minimize2,
   ArrowDownAZ,
-  ArrowLeftRight
+  ArrowLeftRight,
+  ArrowDownUp
 } from 'lucide-angular';
 
 import { routes } from './app.routes';
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
         Minimize2,
         ArrowDownAZ,
         ArrowLeftRight,
+        ArrowDownUp,
         Sparkles,
         Download,
         Check,
