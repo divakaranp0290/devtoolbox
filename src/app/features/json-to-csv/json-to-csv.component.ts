@@ -172,7 +172,6 @@ export class JsonToCsvComponent {
         link.href = url;
         link.download = 'converted-data.csv';
         link.click();
-
         URL.revokeObjectURL(url);
     }
 }
