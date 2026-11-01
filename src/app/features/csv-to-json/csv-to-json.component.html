@@ -1,0 +1,125 @@
+<section class="tool-page">
+  <div class="tool-banner">
+    <div class="banner-content">
+      <span class="eyebrow">CodexaKit Developer Tools</span>
+      <h1>CSV to JSON Converter</h1>
+      <p>
+        Convert CSV data into clean, formatted JSON. Paste your CSV or upload
+        a file to get started.
+      </p>
+    </div>
+  </div>
+
+  <div class="tool-container">
+    <div class="tool-actions">
+      <div class="left-actions">
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="loadSample()"
+        >
+          Load Sample
+        </button>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="clearAll()"
+        >
+          Clear
+        </button>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="csvFileInput.click()"
+        >
+          Upload CSV
+        </button>
+
+        <input
+          #csvFileInput
+          type="file"
+          accept=".csv,text/csv"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+      </div>
+
+      <button
+        type="button"
+        class="button button-primary"
+        (click)="convertToJson()"
+      >
+        Convert to JSON
+      </button>
+    </div>
+
+    <div class="editor-grid">
+      <section class="editor-panel">
+        <div class="panel-header">
+          <div>
+            <h2>CSV Input</h2>
+            <p>Paste or upload your CSV data</p>
+          </div>
+          <span class="file-label">.csv</span>
+        </div>
+
+        <textarea
+          class="code-editor"
+          [(ngModel)]="csvInput"
+          placeholder="Paste your CSV data here..."
+          spellcheck="false"
+          aria-label="CSV input"
+        ></textarea>
+      </section>
+
+      <section class="editor-panel">
+        <div class="panel-header">
+          <div>
+            <h2>JSON Output</h2>
+            <p>Your converted JSON will appear here</p>
+          </div>
+          <span class="file-label">.json</span>
+        </div>
+
+        <textarea
+          class="code-editor output-editor"
+          [value]="jsonOutput"
+          placeholder="Your JSON output will appear here..."
+          readonly
+          spellcheck="false"
+          aria-label="JSON output"
+        ></textarea>
+      </section>
+    </div>
+
+    <div class="output-actions">
+      <button
+        type="button"
+        class="button button-secondary"
+        (click)="copyJson()"
+        [disabled]="!jsonOutput"
+      >
+        Copy JSON
+      </button>
+
+      <button
+        type="button"
+        class="button button-secondary"
+        (click)="downloadJson()"
+        [disabled]="!jsonOutput"
+      >
+        Download JSON
+      </button>
+    </div>
+
+    <p class="message error-message" *ngIf="errorMessage" role="alert">
+      {{ errorMessage }}
+    </p>
+
+    <p class="message success-message" *ngIf="successMessage" role="status">
+      {{ successMessage }}
+    </p>
+  </div>
+</section>

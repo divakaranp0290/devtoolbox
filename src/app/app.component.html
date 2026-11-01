@@ -1,4 +1,3 @@
-
 <div class="site-shell">
   <header class="site-header">
     <a class="brand" routerLink="/" aria-label="CodexaKit home">
@@ -10,16 +9,39 @@
     </a>
 
     <nav class="main-nav" aria-label="Main navigation">
-      <a
-        routerLink="/"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        JSON Formatter
-      </a>
-      <a routerLink="/json-to-csv" routerLinkActive="active">
-        JSON to CSV
-      </a>
+      <details class="tools-menu">
+        <summary class="tools-trigger">
+          <span>Tools</span>
+          <span class="dropdown-arrow" aria-hidden="true"></span>
+        </summary>
+
+        <div class="tools-dropdown">
+          <div class="dropdown-group">
+            <span class="dropdown-heading">JSON Tools</span>
+
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+              JSON Formatter
+            </a>
+          </div>
+
+          <div class="dropdown-group">
+            <span class="dropdown-heading">Data Converters</span>
+
+            <a routerLink="/json-to-csv" routerLinkActive="active">
+              JSON to CSV
+            </a>
+
+            <a routerLink="/csv-to-json" routerLinkActive="active">
+              CSV to JSON
+            </a>
+
+            <a routerLink="/json-to-xml" routerLinkActive="active">
+              JSON to XML
+            </a>
+          </div>
+        </div>
+      </details>
+
       <a routerLink="/about" routerLinkActive="active">About</a>
       <a routerLink="/contact" routerLinkActive="active">Contact</a>
     </nav>
@@ -48,6 +70,8 @@
         <h2>JSON Tools</h2>
         <a routerLink="/">JSON Formatter &amp; Validator</a>
         <a routerLink="/json-to-csv">JSON to CSV Converter</a>
+        <a routerLink="/csv-to-json">CSV to JSON Converter</a>
+        <a routerLink="/json-to-xml">JSON to XML Converter</a>
         <span class="coming-soon">More tools coming soon</span>
       </div>
 

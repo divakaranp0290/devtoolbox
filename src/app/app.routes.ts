@@ -5,6 +5,8 @@ import { About } from './pages/about/about.component';
 import { Privacy } from './pages/privacy/privacy.component';
 import { Contact } from './pages/contact/contact.component';
 import { JsonToCsvComponent } from './features/json-to-csv/json-to-csv.component';
+import { CsvToJsonComponent } from './features/csv-to-json/csv-to-json.component';
+import { JsonToXmlComponent } from './features/json-to-xml/json-to-xml.component';
 
 
 
@@ -53,6 +55,16 @@ export const routes: Routes = [
             description:
                 'Convert JSON arrays to CSV online. Copy or download CSV output with this free developer tool.',
         },
+    },
+    {
+        path: 'csv-to-json',
+        component: CsvToJsonComponent,
+        title: 'CSV to JSON Converter | CodexaKit',
+    },
+    {
+        path: 'json-to-xml',
+        component: JsonToXmlComponent,
+        title: 'JSON to XML Converter | CodexaKit',
     },
     {
         path: '**',

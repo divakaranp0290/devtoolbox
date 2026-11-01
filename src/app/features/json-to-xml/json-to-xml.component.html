@@ -1,0 +1,125 @@
+<section class="tool-page">
+  <div class="tool-banner">
+    <div class="banner-content">
+      <span class="eyebrow">CodexaKit Developer Tools</span>
+      <h1>JSON to XML Converter</h1>
+      <p>
+        Convert JSON data into readable XML. Paste your JSON or upload a file
+        to get started.
+      </p>
+    </div>
+  </div>
+
+  <div class="tool-container">
+    <div class="tool-actions">
+      <div class="left-actions">
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="loadSample()"
+        >
+          Load Sample
+        </button>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="clearAll()"
+        >
+          Clear
+        </button>
+
+        <button
+          type="button"
+          class="button button-secondary"
+          (click)="jsonFileInput.click()"
+        >
+          Upload JSON
+        </button>
+
+        <input
+          #jsonFileInput
+          type="file"
+          accept=".json,application/json"
+          (change)="onFileSelected($event)"
+          hidden
+        />
+      </div>
+
+      <button
+        type="button"
+        class="button button-primary"
+        (click)="convertToXml()"
+      >
+        Convert to XML
+      </button>
+    </div>
+
+    <div class="editor-grid">
+      <section class="editor-panel">
+        <div class="panel-header">
+          <div>
+            <h2>JSON Input</h2>
+            <p>Paste or upload your JSON data</p>
+          </div>
+          <span class="file-label">.json</span>
+        </div>
+
+        <textarea
+          class="code-editor"
+          [(ngModel)]="jsonInput"
+          placeholder="Paste your JSON data here..."
+          spellcheck="false"
+          aria-label="JSON input"
+        ></textarea>
+      </section>
+
+      <section class="editor-panel">
+        <div class="panel-header">
+          <div>
+            <h2>XML Output</h2>
+            <p>Your converted XML will appear here</p>
+          </div>
+          <span class="file-label">.xml</span>
+        </div>
+
+        <textarea
+          class="code-editor output-editor"
+          [value]="xmlOutput"
+          placeholder="Your XML output will appear here..."
+          readonly
+          spellcheck="false"
+          aria-label="XML output"
+        ></textarea>
+      </section>
+    </div>
+
+    <div class="output-actions">
+      <button
+        type="button"
+        class="button button-secondary"
+        (click)="copyXml()"
+        [disabled]="!xmlOutput"
+      >
+        Copy XML
+      </button>
+
+      <button
+        type="button"
+        class="button button-secondary"
+        (click)="downloadXml()"
+        [disabled]="!xmlOutput"
+      >
+        Download XML
+      </button>
+    </div>
+
+    <p class="message error-message" *ngIf="errorMessage" role="alert">
+      {{ errorMessage }}
+    </p>
+
+    <p class="message success-message" *ngIf="successMessage" role="status">
+      {{ successMessage }}
+    </p>
+  </div>
+</section>
